@@ -1,0 +1,11 @@
+.button_action_like{
+    width: 21px;
+    height: 19px;
+    border: none;
+    background-image: url(../../../images/button-like.svg);
+    background-color: #ffffff;
+}
+
+.button_action_like:hover{
+    opacity: 0.5;
+  }

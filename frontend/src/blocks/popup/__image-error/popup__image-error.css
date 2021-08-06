@@ -1,0 +1,7 @@
+.popup__image-error{
+    width: 120px;
+    height: 120px;
+    border: none;
+    background-image: url(../../../images/UnionNo.svg);
+    background-color: #ffffff;
+}

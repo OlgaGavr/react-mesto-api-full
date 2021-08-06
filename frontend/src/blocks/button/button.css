@@ -1,0 +1,8 @@
+.button{
+    padding: 0;
+    box-sizing: border-box;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: opacity 1s linear;
+}

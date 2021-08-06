@@ -1,0 +1,4 @@
+.page__login{
+    margin: 0 auto 112px;
+    min-height: calc(100vh - 218px);
+}

@@ -1,0 +1,17 @@
+.button_action_edit{
+    width: 18px;
+    height: 18px;
+    border: 1px solid #FFFFFF;
+    background-image: url(../../../images/button-edit.svg);
+    background-color: black;
+}
+@media screen and (min-width: 918px) {
+  .button_action_edit {
+    width: 24px;
+    height: 24px;
+   }
+}
+
+.button_action_edit:hover{
+  opacity: 0.6;
+}

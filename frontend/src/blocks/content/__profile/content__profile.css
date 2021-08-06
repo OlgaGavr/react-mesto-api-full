@@ -1,0 +1,8 @@
+.content__profile{
+    margin-top: 42px;
+}
+@media screen and (min-width: 619px) {
+    .content__profile {
+      margin-top: 40px;
+    }
+}

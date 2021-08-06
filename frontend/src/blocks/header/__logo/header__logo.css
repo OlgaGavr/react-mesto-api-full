@@ -1,0 +1,25 @@
+.header__logo{
+    width: 104px;
+    height: 24px;
+    margin-left: 27px;
+    object-fit: cover;
+   }
+@media screen and (min-width: 634px) {
+    .header__logo {
+      margin-left: 10px;
+      width: 125px;
+      height: 30px;
+    }
+}
+
+@media screen and (min-width: 918px) {
+  .header__logo {
+    margin-left: 0;
+    width: 142px;
+    height: 33px;
+  }
+}
+
+.header__logo:hover{
+  cursor: none;
+}

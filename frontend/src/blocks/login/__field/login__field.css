@@ -1,0 +1,16 @@
+.login__field{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    padding: 0;
+    min-height: 27px;
+    border: none;
+    border-bottom: 2px solid #CCCCCC;
+    width: 100%;
+    background-color: black;
+   }
+
+   .login__field::placeholder{
+       color: #CCCCCC;
+   }

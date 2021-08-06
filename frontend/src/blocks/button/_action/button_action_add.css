@@ -1,0 +1,16 @@
+.button_action_add{
+    width: 282px;
+    height: 50px;
+    border: 2px solid #FFFFFF;
+    background-image: url(../../../images/button-add.svg);
+    border-radius: 2px;
+    background-color: black;
+   }
+   @media screen and (min-width: 619px) {
+    .button_action_add { 
+        width: 150px;
+    }
+}
+.button_action_add:hover{
+    opacity: 0.6;
+  }

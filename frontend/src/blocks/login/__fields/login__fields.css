@@ -1,0 +1,7 @@
+.login__fields{
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 30px;
+  padding: 0;
+  width: 100%;
+}

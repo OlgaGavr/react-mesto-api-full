@@ -1,0 +1,14 @@
+.popup__fields{
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 30px;
+  padding: 0;
+  list-style: none;
+  margin: 0 0 45px;
+}
+
+@media screen and (min-width: 619px) {
+  .popup__fields {
+    margin-bottom: 48px;
+  }
+}
