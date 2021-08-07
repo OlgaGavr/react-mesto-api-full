@@ -10,14 +10,25 @@ const routesIndex = require('./routes/index');
 const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const auth = require('./middlewares/auth');
-// const cors = require('cors');
+const options = {
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3003',
+    'http://mestechko.students.nomoredomains.club',
+    'https://mestechko.students.nomoredomains.club',
+  ],
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
+  credentials: true,
+};
 
-// const сorsHandler = require('./middlewares/corsHandler');
+const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
-// app.use(сors1());
+app.use(cors(options));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
@@ -30,8 +41,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
-
-app.use(cors());
 
 app.post('/api/signin', celebrate({
   body: Joi.object().keys({

@@ -17,8 +17,9 @@ class Api {
       headers: {
       //  authorization: this._authorization,
         'Content-Type': 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
-      credentials: 'include',
+   //   credentials: 'include',
     })
       .then(this._checkResponse);
   }
@@ -26,10 +27,10 @@ class Api {
   getCards() {
     return fetch(`${this._url}/cards`, {
       headers: {
-      //  authorization: this._authorization,
+        authorization: 'Bearer ' + localStorage.getItem('jwt'),
         'Content-Type': 'application/json',
       },
-      credentials: 'include',
+    //  credentials: 'include',
     })
       .then(this._checkResponse);
   }
@@ -44,8 +45,9 @@ class Api {
       headers: {
       //  authorization: this._authorization,
         'Content-Type': 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
-      credentials: 'include',
+    //  credentials: 'include',
       body: JSON.stringify({
         name: user.name,
         about: user.about
@@ -59,13 +61,16 @@ class Api {
       method: 'POST',
       headers: {
       //  authorization: this._authorization,
+        //authorization: 'Bearer ' + localStorage.getItem('jwt'),
         'Content-Type': 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
-      credentials: 'include',
+    //  credentials: 'include',
       body: JSON.stringify({
         name: newCard.name,
         link: newCard.link
-      })
+      }),
+      
     })
       .then(this._checkResponse);
   }
@@ -73,10 +78,11 @@ class Api {
   deleteCard(delCardId) {
     return fetch(`${this._url}/cards/${delCardId}`, {
       method: 'DELETE',
-      // headers: {
+       headers: {
       //   authorization: this._authorization,
-      // },
-      credentials: 'include',
+      authorization: 'Bearer ' + localStorage.getItem('jwt'),
+       },
+    //  credentials: 'include',
     })
       .then(this._checkResponse);
   }
@@ -84,10 +90,11 @@ class Api {
   changeLikeCardStatus(id, isNoLiked) {
     return fetch(`${this._url}/cards/likes/${id} `, {
       method: isNoLiked ? 'PUT' : 'DELETE',
-      // headers: {
-      //   authorization: this._authorization,
-      // },
-      credentials: 'include',
+       headers: {
+         //authorization: this._authorization,
+          authorization: 'Bearer ' + localStorage.getItem('jwt'),
+       },
+    //  credentials: 'include',
     })
       .then(this._checkResponse);
   }
@@ -98,8 +105,9 @@ class Api {
       headers: {
       //  authorization: this._authorization,
         'Content-Type': 'application/json',
+        authorization: 'Bearer ' + localStorage.getItem('jwt'),
       },
-      credentials: 'include',
+    //  credentials: 'include',
       body: JSON.stringify({
         avatar: user.avatar
       })
