@@ -10,7 +10,6 @@ const NotAutorizationError = require('../errors/not-autorization-error');
 require('dotenv').config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
-console.log(process.env.NODE_ENV);
 
 function getUsers(req, res, next) {
   return User.find({})
