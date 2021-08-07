@@ -1,17 +1,23 @@
 const express = require('express');
+
 const { celebrate, Joi, errors } = require('celebrate');
 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
+const cors = require('cors');
 const routesIndex = require('./routes/index');
 const { createUser, login } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const auth = require('./middlewares/auth');
-const сorsHandler = require('./middlewares/corsHandler');
+// const cors = require('cors');
+
+// const сorsHandler = require('./middlewares/corsHandler');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+// app.use(сors1());
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
@@ -25,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.use(сorsHandler);
+app.use(cors());
 
 app.post('/api/signin', celebrate({
   body: Joi.object().keys({
