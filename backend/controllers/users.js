@@ -7,6 +7,11 @@ const MongoError = require('../errors/mongo-error');
 const CastError = require('../errors/bad-id-error');
 const NotAutorizationError = require('../errors/not-autorization-error');
 
+require('dotenv').config();
+
+const { NODE_ENV, JWT_SECRET } = process.env;
+console.log(process.env.NODE_ENV);
+
 function getUsers(req, res, next) {
   return User.find({})
     .then((user) => res.status(200).send({ data: user }))
@@ -104,7 +109,7 @@ const login = (req, res, next) => {
           if (!matched) {
             throw new NotAutorizationError('Неправильные почта или пароль');
           }
-          const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+          const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
           return res.send({ token });
         });
     })
