@@ -13,6 +13,7 @@ export const register = ({ email, password}) => {
     headers,
     method: 'POST',
     body: JSON.stringify({ email, password }),
+    credentials: 'include',
   })
   .then(res => checkResponse(res));
 }
@@ -22,6 +23,7 @@ export const authorize = ( {email, password} ) => {
       headers,
       method: 'POST',
       body: JSON.stringify({ email, password }),
+      credentials: 'include',
     })
     .then(res => checkResponse(res));
   }
@@ -33,6 +35,7 @@ export const authorize = ( {email, password} ) => {
         ...headers,
         'Authorization': `Bearer ${token}`,
       },
+      credentials: 'include',
     })
     .then(res => checkResponse(res));
   }
