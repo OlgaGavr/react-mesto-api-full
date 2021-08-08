@@ -41,7 +41,7 @@ function App() {
     if (loggedIn) {
       history.push('/main')
     }
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   React.useEffect(() => {
     api.getCards()

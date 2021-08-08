@@ -8,7 +8,7 @@ function createCard(req, res, next) {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send({ cards: card })) // new
     .catch((err) => {
       if (err.name === 'ValidationError') throw new ValidationError('Некорректные данные');
       next(err);
@@ -18,7 +18,7 @@ function createCard(req, res, next) {
 
 function getCards(req, res, next) {
   return Card.find({})
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send({ cards: card })) // new
     .catch(next);
 }
 
@@ -33,7 +33,7 @@ function deleteCard(req, res, next) {
       }
       return Card.findByIdAndRemove(card)
         .then((carddel) => {
-          res.status(200).send({ data: carddel });
+          res.status(200).send({ cards: carddel }); // new
         });
     })
     .catch((err) => {
@@ -46,7 +46,7 @@ function deleteCard(req, res, next) {
 const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
     .orFail(new NotFoundError('Нет карточки с таким id'))
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send({ cards: card })) // new
     .catch((err) => {
       if (err.name === 'CastError') throw new CastError('Невалидный ID');
       next(err);
@@ -57,7 +57,7 @@ const likeCard = (req, res, next) => {
 const disLikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
     .orFail(new NotFoundError('Нет карточки с таким id'))
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send({ cards: card })) // new
     .catch((err) => {
       if (err.name === 'CastError') throw new CastError('Невалидный ID');
       next(err);
