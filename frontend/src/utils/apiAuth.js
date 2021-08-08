@@ -33,7 +33,6 @@ export const authorize = ( {email, password} ) => {
         ...headers,
         'Authorization': `Bearer ${token}`,
       },
-    //  credentials: 'include',
     })
     .then(res => checkResponse(res));
   }

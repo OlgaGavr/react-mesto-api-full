@@ -55,15 +55,21 @@ function App() {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        //setCards((state) => {state.data.map((c) => c._id === card._id ? newCard : c)});
+        //setCards(cards)
+        cards.data = cards.data.filter((c) => c._id === card._id ? newCard : c);
+        setCards(cards);
       })
       .catch(err => console.log(err));
   }
 
   function handleCardDelete(card) {
+    
     api.deleteCard(card._id)
       .then(() => {
-        setCards((state) => state.filter((c) => c._id !== card._id))
+        //setCards((state) => state.data.filter((c) => c._id !== card._id))
+        cards.data = cards.data.filter((c) => c._id !== card._id)
+        setCards(cards);
       })
       .catch(err => console.log(err));
   }
@@ -71,7 +77,9 @@ function App() {
   function handleAddPlaceSubmit(card) {
     api.postCard(card)
       .then((card) => {
-        setCards([card, ...cards])
+        //setCards([card.data, ...cards])
+        cards.data = [card.data].concat(cards.data);
+        setCards(cards);
       })
       .then(() => { closeAllPopups() })
       .catch(err => console.log(err));
