@@ -9,7 +9,6 @@ const headers={
 }
 
 export const register = ({ email, password}) => {
-  console.log(' REGISTER', optionAuth.url, email, password);
   return fetch(`${optionAuth.url}/signup`, {
     headers,
     method: 'POST',
@@ -31,9 +30,7 @@ export const getContent = (token) => {
   return fetch(`${optionAuth.url}/users/me`, {
     method: 'GET',
     headers: {
-    //  ...headers,
       'Content-Type': 'application/json',
-    //  'Authorization': `Bearer ${token}`,
       authorization: `Bearer ${token}`,
     },
   })

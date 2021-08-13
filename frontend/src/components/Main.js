@@ -3,12 +3,6 @@ import Card from './Card'
 import { CurrentUserContext } from '../contexts/CurrentUserContext';  
 function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
-//  console.log("props.cards", props.cards);
-
-    //   props.cards.map((card) => {
-    //     console.log( 'props', card, card._id);
-    // })
-
   return (
     <main className="content page__content">
       <section className="profile content__profile">

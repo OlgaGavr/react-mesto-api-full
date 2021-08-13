@@ -3,7 +3,6 @@ class Api {
   constructor(options) {
     this._url = options.url;
     this._token = null;
-    //this._authorization = options.headers.authorization;
   }
   
   _checkResponse(res) {
@@ -14,7 +13,6 @@ class Api {
   }
 
   getUser() {
-    // console.log('Bearer ', localStorage.getItem('jwt'));
     return fetch(`${this._url}/users/me`, {
       headers: {
         //authorization: this._authorization,
@@ -26,12 +24,9 @@ class Api {
   }
 
   getCards() {
-    // console.log('getCard', this._url);
-    // console.log('BearerCard ', localStorage.getItem('jwt'));
     return fetch(`${this._url}/cards`, {
       headers: {
         //authorization: this._authorization,
-        
         authorization: 'Bearer ' + localStorage.getItem('jwt'),
         'Content-Type': 'application/json',
       }
@@ -40,7 +35,6 @@ class Api {
   }
 
   getAllData() {
-//    console.log('aqui');
     return Promise.all([this.getUser(), this.getCards()])
   }
 
@@ -48,7 +42,6 @@ class Api {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
-        //authorization: this._authorization,
         authorization: 'Bearer ' + localStorage.getItem('jwt'),
         'Content-Type': 'application/json',
       },

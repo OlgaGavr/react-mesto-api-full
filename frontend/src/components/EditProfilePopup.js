@@ -15,12 +15,12 @@ function EditProfilePopup({ isOpen, closePopups, onUpdateUser }) {
 
   const currentUser = React.useContext(CurrentUserContext);
   React.useEffect(() => {
-    if (currentUser.data !== undefined) {
-    if (currentUser.data.name !== undefined) {
-      setName(currentUser.data.name);
+    if (currentUser !== undefined) {
+    if (currentUser.name !== undefined) {
+      setName(currentUser.name);
     }
-    if (currentUser.data.about !== undefined) {
-      setDescription(currentUser.data.about);
+    if (currentUser.about !== undefined) {
+      setDescription(currentUser.about);
     }
   }
   }, [isOpen]);
