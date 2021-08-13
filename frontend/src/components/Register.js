@@ -17,7 +17,7 @@ function Register({ onRegister }) {
     onRegister(registerData)
       .catch(err => console.log(err));
   }
-
+  console.log("register");
   return (
     <div className='login page__login'>
       <h2 className="login__title">Регистрация</h2>

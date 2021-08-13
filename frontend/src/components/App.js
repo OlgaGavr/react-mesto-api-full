@@ -4,14 +4,14 @@ import { api } from '../utils/api.js'
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
+import PopupWithForm from './PopupWithForm'; 
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from './ImagePopup';
 import Register from './Register';
 import Login from './Login';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';  
 import ProtectedRoute from './ProtectedRoute'
 import * as apiAuth from '../utils/apiAuth'
 import InfoTolltip from './InfoTooltip.js';
@@ -36,29 +36,108 @@ function App() {
 
   const history = useHistory();
 
-
   React.useEffect(() => {
+//    console.log("loggedIn:", loggedIn);
     if (loggedIn) {
-      history.push('/main')
+      api.getAllData()
+        .then((data) => {
+      //    console.log(data);
+      //    console.log(data[1].data);
+          setCurentUser(data[0].data);
+          setCards(data[1].data);
+        //  console.log(cards);
+          history.push('/main')
+        })
     }
   }, [loggedIn, history]);
+  
+  React.useEffect(() => {
+  //  console.log('effect54');
+    api.getUser()
+      .then((userData) => {
+        setCurentUser(userData);
+      })
+      .catch(() => console.log('Ошибка загрузки данных'));
+  }, []);
 
   React.useEffect(() => {
     api.getCards()
       .then((cards) => {
-        setCards(cards);
+    //    console.log('effect66');
+    //    console.log("cards", cards);
+        setCards(cards.data);
       })
       .catch(() => console.log(`Ошибка загрузки данных`));
   }, []);
 
+  React.useEffect(() => {
+  //  console.log("tokenCheck: 73")
+    tokenCheck();
+  }, []);
+  
+  function register(data) {
+  //  console.log("register: 78")
+    return apiAuth
+      .register(data)
+      .then((res) => {
+        setIsSuccess(true);
+        setIsInfoTooltipOpen(true);
+        history.push('/sign-in');
+      })
+      .catch(() => {
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
+      })
+  }
+
+  function login(data) {
+  //  console.log("login")
+    return apiAuth
+      .authorize(data)
+      .then((data) => {
+  //      console.log('login', data.token);
+        localStorage.setItem('jwt', data.token);
+        tokenCheck();
+      })
+      .catch(() => {
+        setIsSuccess(false);
+        setIsInfoTooltipOpen(true);
+      })
+  }
+  
+  function tokenCheck() {
+ //   console.log("tokenCheck")
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      return
+    }
+    
+    return apiAuth
+      .getContent(jwt)
+      .then((data) => {
+  //      console.log('getContent', data.data);
+        setUserInfo({ 
+          email: data.data.email,
+         _id: data.data._id,
+        });
+    //    console.log("data:", data, "data.data:", data.data);
+    //    setCurentUser(data);
+        setLoggedIn(true);
+      })
+     .catch(err => console.log(err));
+  }
+
+  function logout() {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    history.push('/sign-in');
+  }
+
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        //setCards((state) => {state.data.map((c) => c._id === card._id ? newCard : c)});
-        //setCards(cards)
-        cards.data = cards.data.filter((c) => c._id === card._id ? newCard : c);
-        setCards(cards);
+        setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c));
       })
       .catch(err => console.log(err));
   }
@@ -67,31 +146,23 @@ function App() {
     
     api.deleteCard(card._id)
       .then(() => {
-        //setCards((state) => state.data.filter((c) => c._id !== card._id))
-        cards.data = cards.data.filter((c) => c._id !== card._id)
-        setCards(cards);
+        setCards((state) => state.filter((c) => c._id !== card._id))
+        // cards.data = cards.data.filter((c) => c._id !== card._id)
+        // setCards(cards);
       })
       .catch(err => console.log(err));
   }
-
+  
   function handleAddPlaceSubmit(card) {
     api.postCard(card)
       .then((card) => {
-        //setCards([card.data, ...cards])
-        cards.data = [card.data].concat(cards.data);
-        setCards(cards);
+        setCards([card.data, ...cards])
+        // cards.data = [card.data].concat(cards.data);
+        // setCards(cards);
       })
       .then(() => { closeAllPopups() })
       .catch(err => console.log(err));
   }
-
-  React.useEffect(() => {
-    api.getUser()
-      .then((userData) => {
-        setCurentUser(userData);
-      })
-      .catch(() => console.log('Ошибка загрузки данных'));
-  }, []);
 
   function handleUpdateUser(user) {
     api.changeUser(user)
@@ -134,61 +205,7 @@ function App() {
     setSelectedCard(null);
   }
 
-  function register(data) {
-    return apiAuth
-      .register(data)
-      .then((res) => {
-        setIsSuccess(true);
-        setIsInfoTooltipOpen(true);
-        history.push('/sign-in');
-      })
-      .catch(() => {
-        setIsSuccess(false);
-        setIsInfoTooltipOpen(true);
-      })
-  }
-
-  React.useEffect(() => {
-    tokenCheck();
-  }, []);
-
-  function tokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-      return
-    }
-
-    apiAuth
-      .getContent(jwt)
-      .then((data) => {
-        setUserInfo({ 
-          email: data.data.email,
-         _id: data.data._id,
-        });
-        setLoggedIn(true);
-      })
-     .catch(err => console.log(err));
-  }
-
-  function login(data) {
-    return apiAuth
-      .authorize(data)
-      .then((data) => {
-        localStorage.setItem('jwt', data.token);
-        tokenCheck();
-      })
-      .catch(() => {
-        setIsSuccess(false);
-        setIsInfoTooltipOpen(true);
-      })
-  }
-
-  function logout() {
-    localStorage.removeItem('jwt');
-    setLoggedIn(false);
-    history.push('/sign-in');
-  }
-
+//  console.log(cards, loggedIn, "скоро ретурн", userInfo)
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App page">
