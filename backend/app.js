@@ -44,6 +44,7 @@ app.use(requestLogger);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
+    console.log('ща все упадет');
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
