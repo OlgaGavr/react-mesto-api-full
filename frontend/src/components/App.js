@@ -190,6 +190,8 @@ function App() {
       <div className="App page">
         <Header userInfo = {userInfo} onLogout={logout} />
         <Switch>
+          <Route path="/crash-test">
+          </Route>
           <Route path="/sign-in">
             <Login onLogin={login} />
           </Route>
